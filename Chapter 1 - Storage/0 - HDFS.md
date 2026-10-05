@@ -131,49 +131,49 @@ Read וWrite
    2 אופציות: fsck - בודק health check על node ספציפי וjps - בדיקת המצב של כל הnodes הרצים ב.hdfs
    how do i check if a datanode has finished recieving data - הוא מקבל איזשהו ack
 
-4. What does the NameNode do with the block reports?
+3. What does the NameNode do with the block reports?
    אכלוס ותחזוקה של הmetadata catalog של הNameNode.
 
-5. What is RPC?
+4. What is RPC?
    RPC הוא פרוטוקול שתוכנה יכולה להשתמש בו כדי לבקש שירות מתוכנה הנמצאת במחשב אחר.
 
-6. RPC vs REST
+5. RPC vs REST
    RPC: Action oriented - "קריאה לפונקציות", faster - ניתן לאפטם יותר
    REST: Resource oriented - CRUD, "נשלוף לפי "משאב, discoverable - לא coupled לurl, standardized - משתמש בhttp
 
-7. What is Thrift?
+6. What is Thrift?
    ששThrift היא Interface description language המשמשת לתקשורת RPC ומאפשרת פיתוח שירותים הפועלים בסביבות שפה שונות.
 
-8. What is JN?
+7. What is JN?
    כדי שהStandby NameNode ישמור על סנכרון, שני הNameNodeים מתקשרים עם קבוצה של daemons הנקראים JournalNodes (או JNs).
    כאשר הActive NameNode מבצע שינוי כלשהו בnamespace, הוא מתעד את השינוי באופן durably ברוב הJNs הללו.
    הStandby NameNode מסוגל לקרוא את הedits מהJNs, והוא עוקב אחריהם באופן רציף כדי לזהות שינויים, עם קבלת השינויים, הStandby NameNode מחיל אותם על הNamespace המקומי שלו.
    במקרה של failover, הStandby NameNode יוודא שקרא את כל השינויים מהJN לפני שיעבור למצב פעיל.
 
 
-9. What exactly is sent to the JN?
+8. What exactly is sent to the JN?
    רשימה של השינויים שקראו על הDataNoeds
 
-10. Where are the JNs saved?
+9. Where are the JNs saved?
    בNameNode
 
-11. What are snapshots?
+10. What are snapshots?
    snapshots הם מעקב על השינויים שיעשו לאותו metadata של tree/subtree
    זה לא מעתיק את את המידע
 
-12. What are checkpoints?
+11. What are checkpoints?
    עcheckpoint היא המיזוג של השינויים האחרונים שבוצעו במערכת הקבצים עם הfsimage העדכני ביותר.
 
-13. What are edit logs?
+12. What are edit logs?
    רשימה של השינויים שהיו בDataNode מסוים
 
-14. Where is the metadata saved?
+13. Where is the metadata saved?
    בRAM של הNameNode
 
-15. Is the max block size configurable?
+14. Is the max block size configurable?
    yes: -D dfs.blocksize=XXX
 
-16. What is ZKFC?
+15. What is ZKFC?
    ה-ZKFailoverController הוא רכיב העושה state machine לNameNode.
    כל מכונה המריצה NameNode מריצה גם ZKFC, ורכיב זה אחראי על:
 - Health monitoring
@@ -230,19 +230,47 @@ Read וWrite
     הstandby namenode לוקח את הקובץ edits והקובץ fsimage ועושה את כל השינויים של edits על הקובץ fsimage.checkpoint [שכפול של fsimage]  
     הקובץ fsimage.chcekpoint מועבר לactive namenoed, ובשני הnamenodes הקובצים הופכים להיות edits וfsimage
 
-31. how is a fallen namenode identified
+30. how is a fallen namenode identified
    הsequential ephemeral znode נפל והwatch שצופה בו יתריע על שינוי
 
-32. How does the standby node know from where to continue
+31. How does the standby node know from where to continue
    הZKFC יודע לנהל את זה
 
-33. What happens if the active node was in the middle of writing and it falls
+32. What happens if the active node was in the middle of writing and it falls
    באסה, מה שנכתב כבר אולי אפשר להציל אבל השאר צריך לעשות append
 
-34. What are leader elections
+33. What are leader elections
    אם הNameNode המקומי תקין והZKFC מזהה שאף NameNode אחר אינו מחזיק כרגע בznode של הlock znode, הוא ינסה להשיג את הlock בעצמו.  
 אם הצליח בכך, משמעות הדבר היא שהוא ניצח בתהליך הleader elections וכעת הוא אחראי לביצוע תהליך הfailover כדי להפוך את הNameNode המקומי שלו לactive NameNode.
 
+35. How does ack look in a heartbeat
+
+
+36. what is configurable for max block size [dir, file, node...]
+אפשר לעשות גם לdir כללי וגם לfile
+
+37. what is configurable for quotas
+directories
+
+38. JN split brain
+הJNs לא יאפשרו ליותר מnamespace אחד לכתוב אליהם ובך ימנע מהnamenode האקטיבי האחר לפעול
+
+39. where is fsimage stored at
+הNameNode מחזיק **בזיכרון** fsimage וBlockmap אבל מחזיק בfsimage [גם] ובedit logs בדיסק.
+
+40. what is exec perms in hdfs
+traversal access - היכולת לגשת לקובץ
+
+41. what is default perms in hdfs
+default ACL
+
+42. what is mask perms in hdfs
+	הmask היא רשומת ACL מיוחדת המסננת את ההרשאות המוענקות לכל רשומות המשתמשים והקבוצות בעלי השם, מרשומת הקבוצה ללא שם.
+
+43. what is sessions in ZKFC
+כאשר הNameNode המקומי תקין, הZKFC מחזיק בSession פתוח בZooKeeper.
+אם הNameNode המקומי פעיל, הוא מחזיק גם בznode מיוחד המשמש כlock.
+הlock הזה עושה שימוש בתמיכה של ZooKeeper בnodes מסוג ephemeral: אם הSession יפוג, הnode של הlock יימחק באופן אוטומטי.
 
 
 ### 🔄 Alternatives
