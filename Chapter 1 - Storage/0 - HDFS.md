@@ -121,6 +121,37 @@ httpFS - WebHDFS [???]
 
 Read וWrite
 בRead נתקשר עם יותר מDataNode אחד לעומת בWrite ש[כנראה] נכתוב רק לDataNode אחד ישירות את הקובץ שלנו והוא יטפל בReplication.
+
+
+Object storage VS file storage
+ping/ack equivalent in HDFS - specifically read and write
+What does the NameNode do with the block reports?
+What is RPC?
+RPC vs REST
+What is Thrift?
+What is JN?
+What exactly is sent to the JN?
+Where are the JNs saved?
+What are snapshots?
+What are checkpoints?
+What are edit logs?
+Where is the metadata saved?
+Is the max block size configurable?
+What is ZKFC?
+What does zkfc actually do?
+How does failover work in HDFS?
+What does JN do in failover [quorum]?
+What is safe mode?
+What is short-circuit read?
+What are quotas [1-2 sentences]?
+What is ACL?
+What is the name service?
+
+
+What is Google FS?*
+Does simultaneous read return all the blocks at the same time [how does simultaneous read work]?*
+
+
 ### 🔄 Alternatives
 Assignment: You are required to research and write a comparative analysis between HDFS and an industry alternative.
 - Deliverable: A written summary (minimum 1 or 2 sentences).
