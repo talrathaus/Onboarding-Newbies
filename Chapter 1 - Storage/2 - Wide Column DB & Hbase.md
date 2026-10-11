@@ -43,7 +43,7 @@ region מחולק לשורות.
 שורה מחולקת לRow Key וColumn Family.
 בColumn Family יהיה [(column(s ושם] המידע שמור בצורת Key-Value.
 Row Key - מזהה יחודי של השורה
-Column Family - קבוצה של שורות הממקמות פיזית קבוצה של עמודות ואת הערכים שלהן, לעיתים קרובות משיקולי ביצועים.
+Column Family - קבוצה של טורים הממקמות פיזית קבוצה של עמודות ואת הערכים שלהן, לעיתים קרובות משיקולי ביצועים.
 Flexible schema: מאחסן נתונים רק כאשר הcolumns קיימים, אידיאלי עבור נתונים בעלי semi-structured data.
 זה שונה מKey Value בכך שאפשר לאחסן בתוך ה"Value" שלנו עוד מערכת "Key Value" ואפשר להריץ עליהם queries כאילו זה RDBMS.
 זה שונה מRDBMS בכך שהschema לא אחידה וקבועה.  
@@ -85,7 +85,7 @@ Answer these five questions to cover HBase’s major areas:
 region מחולק לשורות.
 שורה מחולקת לRow Key וColumn Family.
 Row Key - מזהה יחודי של השורה
-Column Family - קבוצה של שורות הממקמות פיזית קבוצה של עמודות ואת הערכים שלהן, לעיתים קרובות משיקולי ביצועים.
+Column Family - קבוצה של טורים הממקמות פיזית קבוצה של עמודות ואת הערכים שלהן, לעיתים קרובות משיקולי ביצועים.
 טבלה מחולקת לקבוצה של שורות - region.
 HRegionServer הוא המימוש של הRegionServer, האחראי על ניהול של Regionים, הRegionServer הוא DataNode בDISK.
 HFile - הנתונים בHBase מאוחסנים בקובץ של key-value pairs ממוינים.
