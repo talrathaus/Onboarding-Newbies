@@ -146,6 +146,56 @@ Backup: עותק של table ששמור מחוץ ל-HBase לצורך התאושש
 Schema changes: פשוט להוסיף column חדש.
 Recovery: הHMaster מקצה מחדש את הRegions שלו לRegionServers זמינים, ותהליך הReplay משחזר פעולות כתיבה שטרם נשמרו בHFiles.  
 במקרה של HMaster failure הZKFC יוודא יוודה שהStandby HMaster יעלה.
+
+
+**שאלות סקילה:**
+מקסימום מספרי של column families
+תלוי במה עושים יותר: read - 1\2, write - 10
+
+מה הגודל המהותי לqualifier 
+אין הגבלה - הרבה פחות הגבלה
+
+Flow שליפה מהmetatable
+בגלל שהhbase:meta היא טבלה כמו כל שאר הטבלאות, נעשה query על הregion בטבלה שאנחנו מחפשים ולפי זה נשיג את הServer שבו נמצאת הטבלה.
+
+האם compaction שומר רק גרסאות עדכניות ביותר 
+minor compaction פשוט מאחד [כמות מסויימת של] קבצי HFile - לא
+major compactions שומרות רק גרסאות עדכניות של כל המידע בHFiles - כן
+
+למה compactionsלא טובים בMOB
+Compactions לוקחים הרבה IO והרבה Compute על קבצים קטנים יותר ממילא, אז לעשות Compaction עם קבצים יותר גדולים יגרום לכל הMajor Compaction להיות איטי
+
+האם יש לmetatable - column families, איפה היא נשמרת והאם היא טבלת hbase
+Column Family "info", נשמר על RegionServer כמו כל שאר הטבלאות, "an HBase (catalog) table"
+
+איך ניגשים לmetatable
+Lookup on Zookeeper
+
+WAL Splitting, Procedures 
+התהליך של קיבוץ WAL logs לפי region.
+תהליך זה מתבצע על ידי הHMaster בעת הפעלת הcluster, או על ידי הServerShutdownHandler בעת כיבוי של region server.
+
+Block cache-מה זה block, איזה סוגיblocks יש בHBASE
+Block הוא יחידת נתונים מתוך HFile, שנטענת ונשמרת בזיכרון כדי להאיץ קריאות חוזרות.
+סוגי הבלוקים כוללים Data Blocks, המכילים את הנתונים עצמם, וIndex Blocks וBloom Blocks, המסייעים לאתר נתונים במהירות.
+
+מה עושה trigger לminor compaction
+כמות מסוימת של HFiles הנמצאים באותו HStore.
+
+Data locality והאם אפשר לאכוף את זה
+Data locality זה לשים את הblockים בDataNode הנמצא יחד עם הRegionServer שאליו נשלח המידע וכך מצטמצמת תעבורת הרשת.
+אפשר לדחוף את המערכת לData locality באמצעות 	Region Reassignment and Distribution אך לא להבטיח באופן מוחלט.
+
+איך המבנה של הHFile מועיל שליפות
+HFile הוא קובץ אחסון Immutable בפורמט ממוין, הכולל Data Blocks, Indexes, Bloom Filters, metadata וTrailer בסוף הקובץ, המכיל מידע המאפשר לאתר את רכיביו.
+המיון מאפשר חיפוש יעיל לפי Row Key, האינדקסים מכוונים ישירות לבלוק הרלוונטי, וBloom Filters יכולים למנוע חיפושים מיותרים בקבצים שבהם המפתח אינו קיים, בעוד Block Cache חוסך קריאות חוזרות מהדיסק.
+
+HBCK וHBCK2
+HBaseFsck הוא כלי לבדיקת עקביות regions ובעיות בשלמות הtableים, וכן לתיקון מופע HBase פגום.
+הכלי מסוגל גם לתקן טבלאות, מעבר לפעולתו כברירת מחדל המסתכמת בזיהוי חוסר עקביות בטבלאות בלבד.
+במצב זיהוי חוסר עקביות מHBASE2+
+HBCK2 הוא גרסאת השיפור של HBCK, והגרסא הפועלת מHBASE2.
+
 ### 🔄 Alternatives
 Assignment: You are required to research and write a comparative analysis between HBase and an industry alternative.
 - Deliverable: A written summary (minimum 1 or 2 sentences).
