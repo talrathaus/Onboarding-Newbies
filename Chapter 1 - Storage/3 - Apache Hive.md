@@ -254,32 +254,58 @@ Research fault tolerance in Hive. Consider failures in the services involved in 
 
 
 ### שאלות סקילה
-מה זה mapreduce
-איך mapreduce עובד
-איזה חלק בecosystem הוא hive
-מה השם של הweb interface
-צה זה thrift
-למה בחרו בthrift בHadoop Ecosystem
-למה בחרו בthrift בHive
-מה הCLI השני בHive [לא HiveCLI]
-מה ההבדל בין 2 הCLIs של Hive
-על מה HiveCLI מבוסס
-האם הdriver והserver רכיבים שונים בhive
-מה הOutput של SQL לאחר קומפילציה
-איך קוראים לרכיב שלוקח "compiled SQL" בhive והופך אותו לmapreduce job
-איזה עוד executors יש חוץ מmapreeduce/mapreducev2
-איך למחוק מידע בטלבה external ושהמיגע גם ימחק
-מה ההבדל השני בין external וmanaged
-מה זה DerbyDB
-האם נשתמש בDerbyDB במערכת prod
-ההבדצ בין local HMS וremote HMS
-מה המצב בשלישי של HMS [חוץ מlocal וremote]
-מה זה Avi load balancer*
-סוגי אופטימיזציות בHive
-למה רק HMS 1
-למה יש metastore server
-האיזה דרכים הביזור של metastore server קורה
-מה זה metastore ERD*
+
+י מה זה mapreduce
+
+י איך mapreduce עובד
+
+י איזה חלק בecosystem הוא hive
+
+י מה השם של הweb interface
+
+י צה זה thrift
+
+י למה בחרו בthrift בHadoop Ecosystem
+
+י למה בחרו בthrift בHive
+
+י מה הCLI השני בHive [לא HiveCLI]
+
+י מה ההבדל בין 2 הCLIs של Hive
+
+י על מה HiveCLI מבוסס
+
+י האם הdriver והserver רכיבים שונים בhive
+
+י מה הOutput של SQL לאחר קומפילציה
+
+י איך קוראים לרכיב שלוקח "compiled SQL" בhive והופך אותו לmapreduce job
+
+י איזה עוד executors יש חוץ מmapreeduce/mapreducev2
+
+י איך למחוק מידע בטלבה external ושהמיגע גם ימחק
+
+י מה ההבדל השני בין external וmanaged
+
+י מה זה DerbyDB
+
+י האם נשתמש בDerbyDB במערכת prod
+
+י ההבדצ בין local HMS וremote HMS
+
+י מה המצב בשלישי של HMS [חוץ מlocal וremote]
+
+י מה זה Avi load balancer*
+
+י סוגי אופטימיזציות בHive
+
+י למה רק HMS 1
+
+י למה יש metastore server
+
+י האיזה דרכים הביזור של metastore server קורה
+
+י מה זה metastore ERD*
 
 ## Optional Hands-On
 
