@@ -11,14 +11,15 @@
             "id": "53387e9f81059956",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "split-diff-view",
               "state": {
-                "file": "Chapter 1 - Storage/3 - Apache Hive.md",
-                "mode": "source",
-                "source": false
+                "aFile": "Chapter 1 - Storage/2 - Wide Column DB & Hbase.md",
+                "bFile": "Chapter 1 - Storage/2 - Wide Column DB & Hbase.md",
+                "aRef": "HEAD",
+                "bRef": ""
               },
-              "icon": "lucide-file",
-              "title": "3 - Apache Hive"
+              "icon": "diff",
+              "title": "Diff: 2 - Wide Column DB & Hbase  (Index)"
             }
           }
         ]
@@ -201,6 +202,7 @@
   },
   "active": "53387e9f81059956",
   "lastOpenFiles": [
+    "Chapter 1 - Storage/3 - Apache Hive.md",
     "Chapter 1 - Storage/2 - Wide Column DB & Hbase.md",
     "Chapter 1 - Storage/1 - S3.md"
   ]
