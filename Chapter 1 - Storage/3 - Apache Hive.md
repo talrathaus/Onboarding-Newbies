@@ -252,6 +252,35 @@ Research fault tolerance in Hive. Consider failures in the services involved in 
 
 י כלומר, ייתכן שהמערכת תמשיך להיות זמינה, אך שאילתה מסוימת שכבר נכשלה תצטרך להישלח מחדש.
 
+
+### שאלות סקילה
+מה זה mapreduce
+איך mapreduce עובד
+איזה חלק בecosystem הוא hive
+מה השם של הweb interface
+צה זה thrift
+למה בחרו בthrift בHadoop Ecosystem
+למה בחרו בthrift בHive
+מה הCLI השני בHive [לא HiveCLI]
+מה ההבדל בין 2 הCLIs של Hive
+על מה HiveCLI מבוסס
+האם הdriver והserver רכיבים שונים בhive
+מה הOutput של SQL לאחר קומפילציה
+איך קוראים לרכיב שלוקח "compiled SQL" בhive והופך אותו לmapreduce job
+איזה עוד executors יש חוץ מmapreeduce/mapreducev2
+איך למחוק מידע בטלבה external ושהמיגע גם ימחק
+מה ההבדל השני בין external וmanaged
+מה זה DerbyDB
+האם נשתמש בDerbyDB במערכת prod
+ההבדצ בין local HMS וremote HMS
+מה המצב בשלישי של HMS [חוץ מlocal וremote]
+מה זה Avi load balancer*
+סוגי אופטימיזציות בHive
+למה רק HMS 1
+למה יש metastore server
+האיזה דרכים הביזור של metastore server קורה
+מה זה metastore ERD*
+
 ## Optional Hands-On
 
 Complete the [Docker Compose lab](./Hive%20Hand%20On%20(optional)/README.md) to inspect catalog and query services separately, create an external table, run `EXPLAIN`, and observe metadata and data lifecycles.
