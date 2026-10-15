@@ -252,7 +252,7 @@ Research fault tolerance in Hive. Consider failures in the services involved in 
 
 י כלומר, ייתכן שהמערכת תמשיך להיות זמינה, אך שאילתה מסוימת שכבר נכשלה תצטרך להישלח מחדש.
 
-### שאלות סקילה
+### שאלות סקילה 1
 
 **י מה זה mapreduce**
 
@@ -364,6 +364,61 @@ Research fault tolerance in Hive. Consider failures in the services involved in 
 **י לקוח בוחר metastore באופן אקראי, אם הmetastore הזה אינו זמין, הלקוח בוחר באופן אקראי אחד אחר.**
 
 **י מה זה metastore ERD***
+
+### שאלות סקילה 2 
+
+**י למה הHiveCLI לא עובר דרך הHiveServer**
+
+י 
+
+**י באיזה פרוטוקול הHiveCLI מתשקר עם הDriver**
+
+י 
+
+**י HiveServer1 VS HiveServer2**
+
+י 
+
+**י מה זה הIL של HiveQL**
+
+י 
+
+**י מה מאפשר לHive לנהל את הManaged Table**
+
+י 
+
+**י למה הHive MetaStore Server קיים בתכלסססססס**
+
+י 
+
+**י מה הUse Case של Remote VS Local HMS**
+
+י 
+
+**י למה Hive הוא לא DB**
+
+י 
+
+**י איך Hive יודע לקרוא סוגי קבצים לא טקסטואלים**
+
+י 
+
+**י מה זה Parquet**
+
+י 
+
+**י מה זה avro, orc [בקצרה]**
+
+י 
+
+**י איך נראות תיקיות בpartitioning**
+
+י 
+
+**י איך להוסיף partition לmetastore**
+
+י 
+
 ## Optional Hands-On
 
 Complete the [Docker Compose lab](./Hive%20Hand%20On%20(optional)/README.md) to inspect catalog and query services separately, create an external table, run `EXPLAIN`, and observe metadata and data lifecycles.
