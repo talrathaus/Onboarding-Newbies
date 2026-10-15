@@ -303,7 +303,7 @@ Research fault tolerance in Hive. Consider failures in the services involved in 
 
 **י האם הdriver והserver רכיבים שונים בhive**
 
-י כן, הם רכיבים נפרדים.
+י לא! הם רכיבים זהים, הפרדה היא לוגית! [סימני קריאה כי אני שכחתי לעדכן לפני הסקילה]
 
 **י מה הOutput של SQL לאחר קומפילציה**
 
@@ -369,55 +369,63 @@ Research fault tolerance in Hive. Consider failures in the services involved in 
 
 **י למה הHiveCLI לא עובר דרך הHiveServer**
 
-י 
+י Hive CLI מפעיל HiveServer מוטמע (embedded), ולכן הוא זקוק לגישה ישירה ל-Hive Metastore (הפועל בפורט 9083) ול-HDFS.
 
 **י באיזה פרוטוקול הHiveCLI מתשקר עם הDriver**
 
-י 
+י TCP על Port 9083
 
 **י HiveServer1 VS HiveServer2**
 
-י 
+י HiveServer אינו מסוגל לטפל בבקשות בו-זמניות מצד יותר מלקוח אחד, וזאת בשל מגבלה הנובעת מממשק ה-Thrift ש-HiveServer חושף.
+
+י HiveServer2 הוא גרסה שנכתבה מחדש של HiveServer, והוא נותן מענה לבעיות אלו.
 
 **י מה זה הIL של HiveQL**
 
-י 
+י Logical Plan: עץ של אופרטורים - כמו filter, join ועוד.
 
 **י מה מאפשר לHive לנהל את הManaged Table**
 
-י 
+י TBLPROPERTIES ("transactional"="true") - קונפיגורציה
 
 **י למה הHive MetaStore Server קיים בתכלסססססס**
 
-י 
+י כדי שיהיה מקום אחד אחיד שממנו אפשר לגשת לmetastore
 
 **י מה הUse Case של Remote VS Local HMS**
 
-י 
+י בRemote mode אין צורך השמנהל ישתף את הlogin information לJDBC עבור הmetastore לעומת בLocal mode שבו המנהל חייב לשתף login information.
 
 **י למה Hive הוא לא DB**
 
-י 
+י כי הוא data warehouse, כלומר, הוא בנוי לאנליטיקות ולא לאחסון מידע.
 
 **י איך Hive יודע לקרוא סוגי קבצים לא טקסטואלים**
 
-י 
+י  הוא לא, הוא רק עושה parsing, validation וschema applying רק כאשר מתבצעת שאילתה.
+
+י Hive משתמש בSerializers/Deserializers הכוללים ספריות תשתית המאפשרות למשתמשים לפתח מנגנוני סריאליזציה וממנו דהסריאליזציה עבור פורמטי הנתונים שלהם.
 
 **י מה זה Parquet**
 
-י 
+י סוג קובץ Columnar בנוי לאנליטיקות שבו טבלאות שמורות בצורה של טור1 data -> metadata, טור2 data -> metatada... File Metadata. בנוסף, parquet משתמש כל מיני compression algorithms בכדי לגרום למידע להישמר בפחות מקום.
 
 **י מה זה avro, orc [בקצרה]**
 
-י 
+י avro - שומר data בצורה בינארית ואת הmetadata בצורת json ששומר מידע בצורה by row.
+
+י orc - שומר data, metadata וכל מיני סטטיסטיקות אקסטרה בצורה columnar.
 
 **י איך נראות תיקיות בpartitioning**
 
-י 
+י טבלה בשם orders עברה partition של עמודה בשם year ועוד אחד של עמודה בשם month, הfilepath יראה כך:
+orders/year=X/month=Y/...
+![[Pasted image 20261015173438.png]]
 
 **י איך להוסיף partition לmetastore**
 
-י 
+י msck repair TABLENAME
 
 ## Optional Hands-On
 
