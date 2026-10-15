@@ -266,6 +266,7 @@ Research fault tolerance in Hive. Consider failures in the services involved in 
 הmaster node מוודא שרק עותק אחד של נתוני הקלט הכפולים יעובד.
 
 י 2. Shuffle: כל worker node מבצעים חלוקה מחדש של הנתונים בהתבסס על output keys (שנוצרו על ידי פונקציית הMap), כך שכל הנתונים המשויכים למפתח מסוים ממוקמים באותו צומת עבודה.
+
 י 3. Reduce: הworker nodes מעבדים במקביל כל קבוצה של נתוני פלט, עבור כל מפתח.
 
 י איזה חלק בecosystem הוא hive
