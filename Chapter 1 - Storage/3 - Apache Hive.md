@@ -331,7 +331,7 @@ Research fault tolerance in Hive. Consider failures in the services involved in 
 
 **י האם נשתמש בDerbyDB במערכת prod**
 
-י לא, זה מוצר שהפסיקו להמשיך וכי לא היה לו High availability 
+י לא, זה מוצר שהפסיקו להמשיך וכי לא היה לו High availability והוא מוצר של Single Process Storage, כלומר, הוא יודע להתמודד רק עם לקוח אחד בכל רגע 
 
 **י מה המצב בשלישי של HMS [חוץ מlocal וremote]**
 
