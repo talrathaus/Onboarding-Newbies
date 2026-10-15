@@ -254,11 +254,11 @@ Research fault tolerance in Hive. Consider failures in the services involved in 
 
 ### שאלות סקילה
 
-י מה זה mapreduce
+**י מה זה mapreduce**
 
 י map produce שזה בעצם פונקציה שפועלת על כל האיברים בסדרה במקביל
 
-י איך mapreduce עובד
+**י איך mapreduce עובד**
 
 י 3 שלבים:
 
@@ -269,75 +269,75 @@ Research fault tolerance in Hive. Consider failures in the services involved in 
 
 י 3. Reduce: הworker nodes מעבדים במקביל כל קבוצה של נתוני פלט, עבור כל מפתח.
 
-י איזה חלק בecosystem הוא hive
+**י איזה חלק בecosystem הוא hive**
 
 י SQL Query Engine
 
-י מה השם של הweb interface
+**י מה השם של הweb interface**
 
 י WebHCat
 
-י מה זה thrift
+**י מה זה thrift**
 
 י thrift זה IDL שזה שפת תכנות המאפשרת לתוכנית או לאובייקט, הכתובים בשפת תכנות אחת, לתקשר עם תוכנית אחרת הכתובה בשפת תכנות לא ידועה.
 
-י למה בחרו בthrift בHadoop Ecosystem
+**י למה בחרו בthrift בHadoop Ecosystem**
 
 י אפשר להשתמש בThrift גם עבור RPC.
 
 י מכיוון שHadoop מבצע RPCs רבים, קיימת אפשרות להשתמש בThrift כדי לשפר את הביצועים.
 
-י למה בחרו בthrift בHive
+**י למה בחרו בthrift בHive**
 
 י גם Hive עושה הרבה RPCs וזה גם אחיד עם שאר הecosystem.
 
-י מה הCLI השני בHive [לא HiveCLI]
+**י מה הCLI השני בHive [לא HiveCLI]**
 
 י Beeline
 
-י מה ההבדל בין 2 הCLIs של Hive - על מה כל אחד מהם מבוסס
+**י מה ההבדל בין 2 הCLIs של Hive - על מה כל אחד מהם מבוסס**
 
 י HiveCLI הוא הCLI הדיפולטיבי והיותר ישן של Hive, הוא מובנה בתוך hive ומובנה Java.
 
 י Beeline הוא חדש יותר ומתחבר לHive דרך הHiveServer, מבוסס JDBC ודומה ללקוח thrift.
 
-י האם הdriver והserver רכיבים שונים בhive
+**י האם הdriver והserver רכיבים שונים בhive**
 
 י כן, הם רכיבים נפרדים.
 
-י מה הOutput של SQL לאחר קומפילציה
+**י מה הOutput של SQL לאחר קומפילציה**
 
 י DAG
 
-י איך קוראים לרכיב שלוקח "compiled SQL" בhive והופך אותו לmapreduce job
+**י איך קוראים לרכיב שלוקח "compiled SQL" בhive והופך אותו לmapreduce job**
 
 י Planner לוקח את הDAG והופך אותו לmapreduce job
 
-י איזה עוד executors יש חוץ מmapreeduce/mapreducev2
+**י איזה עוד executors יש חוץ מmapreeduce/mapreducev2**
 
 י Spark, Tez - בתכלס שניהם יותר טובים לווק, Tez יותר מתאים ללהחליף את Mapreduce בuse case הזה וSpark יותר מהיר.
 
-י איך למחוק מידע בטלבה external ושהמיגע גם ימחק
+**י איך למחוק מידע בטלבה external ושהמיגע גם ימחק**
 
 י ALTER TABLE addresses_text SET TBLPROPERTIES ('external.table.purge'='true');
 
-י מה ההבדל השני בין external וmanaged
+**י מה ההבדל השני בין external וmanaged**
 
 י managed גורם לhive להניח שהוא מנהל גם את המידע לעומת external שלא, כך שניתן לערוך את המידע בmanaged table באמצעות פקודות Hive.
 
-י מה זה DerbyDB
+**י מה זה DerbyDB**
 
 י פרויקט Java-י של RDMBS מapache שניתן להשתמש בו כDB זמני לtesting [המטרה שלו]
 
-י האם נשתמש בDerbyDB במערכת prod
+**י האם נשתמש בDerbyDB במערכת prod**
 
 י לא, זה מוצר שהפסיקו להמשיך וכי לא היה לו High availability 
 
-י מה המצב בשלישי של HMS [חוץ מlocal וremote]
+**י מה המצב בשלישי של HMS [חוץ מlocal וremote]**
 
 י Embedded
 
-י ההבדל בין local HMS וremote HMS
+**י ההבדל בין local HMS וremote HMS**
 
 י Embeded - הכל לוקלי - מהDriver עד הmetastore והDB, הDB בהכרח יהיה Derby.
 
@@ -345,25 +345,25 @@ Research fault tolerance in Hive. Consider failures in the services involved in 
 
 י Remote - הMetastoreים והDB נמצאים גם בם במכונות וירטואליות נפרדות מהDriver.
 
-י מה זה Avi load balancer*
+**י מה זה Avi load balancer***
 
-י סוגי אופטימיזציות בHive
+**י סוגי אופטימיזציות בHive**
 
 י מאחד את הטרנספורמציות השונות יחד, ממיר JOINים רבים לפעולה אחת, מפצל משימות כך שניתן יהיה לארגן את החלקים באופן שיאפשר ביצוע מהיר יותר,כמו הפעלת filters לפני ביצוע הtransform.
 
-י למה רק HMS 1
+**י למה רק HMS 1**
 
 אין בהכרח רק אחד, אפשר לעשות יותר מאחד, דווקא מומלץ שיהיה יותר מHive Metastore Server אחד כי הוא stateless ורק מאפשר תקשורת עם הMetastore.
 
-י למה יש metastore server
+**י למה יש metastore server**
 
-י שלא כל Driver ידע איפה על הMetastoreים נמצאים [בRemote HMS architecture].
+**י שלא כל Driver ידע איפה על הMetastoreים נמצאים [בRemote HMS architecture].**
 
 י האיזה דרכים הביזור של metastore server קורה
 
-י לקוח בוחר metastore באופן אקראי, אם הmetastore הזה אינו זמין, הלקוח בוחר באופן אקראי אחד אחר.
+**י לקוח בוחר metastore באופן אקראי, אם הmetastore הזה אינו זמין, הלקוח בוחר באופן אקראי אחד אחר.**
 
-י מה זה metastore ERD*
+**י מה זה metastore ERD***
 ## Optional Hands-On
 
 Complete the [Docker Compose lab](./Hive%20Hand%20On%20(optional)/README.md) to inspect catalog and query services separately, create an external table, run `EXPLAIN`, and observe metadata and data lifecycles.
