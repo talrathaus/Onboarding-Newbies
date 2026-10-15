@@ -421,7 +421,7 @@ Research fault tolerance in Hive. Consider failures in the services involved in 
 
 י טבלה בשם orders עברה partition של עמודה בשם year ועוד אחד של עמודה בשם month, הfilepath יראה כך:
 orders/year=X/month=Y/...
-![[Pasted image 20261015173438.png]]
+<img width="188" height="224" alt="Pasted image 20261015173438" src="https://github.com/user-attachments/assets/7758ebfd-d4b7-438a-89ce-fa17d70d0653" />
 
 **י איך להוסיף partition לmetastore**
 
