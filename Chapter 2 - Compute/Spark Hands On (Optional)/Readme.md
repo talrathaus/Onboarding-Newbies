@@ -13,6 +13,11 @@ You do not need to create or configure a separate Spark cluster. Databricks Free
 ## Exercise 1: The Joker's Challenge - Calculate Factorial
 The Joker has a mathematical puzzle for you! Write a Spark program that receives a number `N` and returns its factorial. Can you solve the Joker's riddle?
 
+```python
+def factorial(n: int) -> int:
+    return n * factorial(n-1) if n else 1
+```
+
 ## Exercise 2: Batman's Mission - Filter and Sort Numbers
 Batman is on a mission to clean up Gotham City. Write a Spark program that receives four integers `X1`, `X2`, `Y1`, and `Y2`. Your mission, should you choose to accept it:
    - Find all the numbers between `X1` and `X2` that can be divided by 3.
@@ -20,12 +25,24 @@ Batman is on a mission to clean up Gotham City. Write a Spark program that recei
    - Remove any criminal duplicates.
    - Sort the numbers in ascending order and restore peace to the city.
 
+```python
+def filter_and_sort(x1: int, x2: int, y1: int, y2: int):
+    return sorted(list([i for i in range(x1 + 3 - (x1 % 3) if x1 % 3 else x1, x2, 3) if i % 4] + [i for i in range(y1 + 4 - (y1 % 4) if y1 % 4 else y1, y2, 4) if i % 3
+```
+
 ## Exercise 3: Joker's Mischief - Count Email Addresses
 The Joker is causing chaos with spam emails! Write a Spark program that loads files from [./dataset/fake_spam_dataset.csv](./dataset/fake_spam_dataset.csv) and prints how many email addresses there are in the files for each email provider. The Joker is trying to trick you with his spam emails. Can you foil his plans?
 
+```python
+from pyspark.sql.functions import split, col
+def count_email_addresses():
+    df = spark.read.csv("/Volumes/aaaa/default/aaaaa/fake_spam_dataset.csv", header=True)
+    return df.withColumn("domain", split(col("email"), "@")[1]).groupBy("domain").count().orderBy("count", ascending=False).collect()
+```
+
 ## Exercise 4: The Battle of Broadcast - Find Common Soldier Names
 In the dark and chaotic streets of Gotham City, the Joker is hatching a sinister plan to create chaos and confusion. He has enlisted his loyal henchmen, known as the "Joker's Henchclowns," while Batman has gathered his trusted allies, known as the "Gotham Protectors."
-
+    
 Your mission, should you choose to accept it, is to uncover the spies who secretly serve both the Joker and Batman. You have two lists: one containing the names of the Joker's Henchclowns and the other containing the names of the Gotham Protectors. Your task is to identify the double agents who appear on both lists.
 Use the file [./dataset/joker_henchclowns.csv](./dataset/jokers_henchclowns.csv) to create an RDD of the Joker's Henchclowns. Use the file [./dataset/gotham_protectors.csv](./dataset/gotham_protectors.csv) to create an RDD of the Gotham Protectors.
 
@@ -33,9 +50,23 @@ To achieve this mission and save Gotham City from impending chaos, you must harn
 
 Good luck, detective!
 
+```python
+from pyspark.sql.functions import col
+def find_duplicates():
+    djoker, dgotham = spark.read.csv("/Volumes/aaaa/default/aaaaa/jokers_henchclowns.csv", header=True), spark.read.csv("/Volumes/aaaa/default/aaaaa/gotham_protectors.csv", header=True)
+    return djoker.join(dgotham, "Character", "inner").select(col("Character")).collect()
+```
+
 ## Exercise 5: Batman's Data Detective - Count Different HTTP Request Types
 Batman needs your help to investigate the Joker's online activities! Analyze a log file of HTTP requests to Israelies news websiters located at [./dataset/access.log](./dataset/access.log). Your task is to find out how many different types of HTTP requests the Joker has made in the log file. Batman has provided you with an accumulator to tally the results. Can you bring the Joker to justice?
 
+```python
+from pyspark.sql.functions import col
+def find_unique():
+    dhttp = spark.read.text("/Volumes/aaaa/default/aaaaa/access.log")
+    return dhttp.withColumn("value", split(col("value"), " - ")[2]).distinct().count()
+```
+    
 ## Exercise 6: Gotham City Crime Decryption: A Spark-Powered Bat-Adventure :bat: :night_with_stars: :detective:
 
 ### a. Deciphering the Batcomputer's Data
@@ -68,6 +99,39 @@ ii. Develop a program that ensures only one file is saved to the DBFS. Compare d
 ### h. Tracking Crime Time: Analyzing the Most and Least Active Hours
 - Analyze the crime data to determine which day witnessed the most crimes and which had the least.
 - Provide insights to Batman, so he can strategize his patrol hours more effectively.
+
+```python
+from pyspark.sql.functions import col
+def get_schema(df):
+    return df.schema.simpleString()[7:-1].split(",")
+
+def get_most_activity_day(df):
+    return df.groupBy("CrimeDayOfWeek").count().orderBy("count", ascending=False).head().CrimeDayOfWeek
+
+def get_most_activity_month(df):
+    return df.groupBy("CrimeMonth").count().orderBy("count", ascending=False).head().CrimeMonth
+
+def get_unsolved_missing_people(df):
+    return df.filter((col("CrimeCategory") == "MISSING PERSON") & (col("CrimeResolution") != "FOUND PERSON")).count()
+
+def get_most_common_crime(df):
+    return df.filter(col("CrimeResolution") == "UNRESOLVED").dropDuplicates(["Address"]).groupBy("CrimeCategory").count().orderBy("count", ascending=False).head(3)
+
+def write_to_parquet(df, compression_algorithm):
+    df.write.parquet("/Volumes/aaaa/default/aaaaa/parquet-lzo/", mode="overwrite", partitionBy="CrimeDate", compression=compression_algorithm)
+    print("Done!")
+
+def get_top_days(df):
+    return df.groupBy("CrimeDayOfWeek").count().orderBy("count", ascending=False).head(5)
+
+def get_bottom_days(df):
+    return df.groupBy("CrimeDayOfWeek").count().orderBy("count", ascending=False).tail(5)
+
+def get_top_and_bottom_days(df):
+    return get_top_days(df), get_bottom_days(df)
+
+df = spark.read.csv("/Volumes/aaaa/default/aaaaa/gotham_crime_data.csv", header=True)
+```
 
 ## Instructions
 - Use only Spark DataFrame operations for Gotham City Crime Analysis exercises.
