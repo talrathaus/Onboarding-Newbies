@@ -34,11 +34,33 @@ Answer these questions to understand the broader category of distributed query e
 1. **Role in the Data Architecture:**  
    What is a distributed SQL query engine, and where does it sit in a modern data architecture? How does it differ from storage systems such as data lakes or databases?
 
+מנוע שאילתות (Query Engine) הוא כלי המשמש לגישה למקור נתונים, שתפקידו להריץ ולעבד שאילתות מול אותו מקור נתונים.
+המונח SQL מציין שהפעולה מתבצעת באמצעות שפת SQL או שפה דמוית-SQL.
+המונח "מבוזר" (Distributed) מעיד על כך שהארכיטקטורה תוכננה לאפשר הרחבה או צמצום (scaling) בהתאם לצורך, מה שמאפשר למערכת להתמודד עם מאגרי נתונים בהיקף נרחב.
+
+זה יהיה ברמה הכי גבוהה, באמת.
+
+הוא שונה בכך שהוא מתמקד אך ורק בביצוע השאילתות – זה כל מה שהוא עושה, בחיי.
+
 2. **Motivation & Use Cases:**  
    Why do organizations use distributed SQL engines? In what scenarios are they preferred (for example: interactive analytics on large datasets, federated queries across multiple systems, or querying data lakes)?
 
+בצעו שאילתות על כמויות עצומות של נתונים ביעילות באמצעות שאילתות מבוזרות – אם אתם עובדים עם טרה-בייטים או פטה-בייטים של נתונים, סביר להניח שאתם משתמשים בכלים המקיימים אינטראקציה עם Hadoop ו-HDFS.
+עבדו מול סוגים שונים של מקורות נתונים.
+מחסני נתונים (Data Warehousing) ואנליטיקה: ניתוח נתונים, צבירת כמויות גדולות של נתונים והפקת דוחות – OLAP.
+
 3. **Distributed Query Processing:**  
    How do distributed query engines typically execute queries across multiple nodes? Explain concepts such as parallel processing, data shuffling, and shared-nothing architectures.
+
+השאילתה מומרת לייצוג מובנה הנקרא עץ תחביר מופשט (AST), לאחר מכן, כלי אופטימיזציה מנתח את התוכנית הלוגית ומנסה לשפר אותה.
+לאחר יצירת התוכנית הלוגית, המנוע ממיר את התוכנית הלוגית הממוטבת לתוכנית פיזית.
+לאחר מכן, המשימות בתוכנית יחולקו לכל עובד, והן יעובדו במקביל; לאחר מכן, מתרחש שלב ערבוב, המבטיח שכל השורות של אותו מפתח קבוצה ישולבו.
+הנתונים מחולקים מחדש בין עובדים בהתבסס על ה-hash של מפתח הקיבוץ.
+התערובת תמיד הכרחית לחישוב התוצאה הסופית.
+אם נתוני הביניים הופכים גדולים מדי מכדי להתאים לזיכרון, המנוע עלול לגלוש לדיסק, אשר כותב נתונים מאוחסנים זמניים לפני מיזוגם מאוחר יותר.
+השאילתה הסתיימה 😊
+
+ארכיטקטורת shared-nothing היא שכל רכיב או צומת פועלים באופן עצמאי ויש להם משאבים ייעודיים משלהם, כגון מעבדים, זיכרון ואחסון.
 
 ---
 
