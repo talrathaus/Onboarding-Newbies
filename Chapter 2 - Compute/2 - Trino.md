@@ -137,9 +137,8 @@ System access control enforces authorization at the global Trino level and allow
 6. **High Availability & Multi-Cluster Routing:**  
    How does Trino Gateway enable high availability and workload isolation across multiple Trino clusters? Explain how it provides a single entry point, performs rule-based query routing and load balancing, monitors cluster health, and enables failover and multi-cluster isolation beyond what a single Trino coordinator can support.
 
-
 איך קוראים לשלב הראשונה שמגיע מהלקוח לcoord
-statement
+AST
 
 שם של מבנה נתונים שאותה שעברה parse
 split/statement, depends on what we was talking about
@@ -149,8 +148,9 @@ Uses the filter sooner, typically resulting from a condition to omit unnecessary
 
 מה predicate pushdown עושה בHive over HDFS with Parquet
 Trino will read the Parquet metadata to only use relevant rows.
+We only get the relevant row groups because of their stats.
 
-Trino statistics
+Trino statistics - does Trino calculate them, and where does it store them
 For a table:
 row count
 For each column in a table:
@@ -158,6 +158,8 @@ data size
 nulls fraction
 distinct value count
 low/high value
+Trino can calculate them via ANALYZE.
+It can only do it for connectors with preexisting statistics.
 
 איך הcoord עושה scheduling ומתי
 כל stage הוא מחלק לtaskים והוא שולח task ה[split+op] כאשר נוצר Physical plan.
@@ -169,11 +171,13 @@ Post-optimization vs Pre-optimization.
 FINISHING
 Query will be FINISHED only when the client has consumed all of the nextURIs [attribute returns the next batch of query results].
 If it's not able to keep up, the query will stay in FINISHING state until all the segment locations are retrieved.
-Join hints
+
+Join hints - what join type.s
 JOIN hints are used to specify which join algorithm should be used (if possible) by the optimiser.
+Partitioned, Broadcast.
 
 יותר קטן מtask - כל ה3
-Task->1 or more Driver->1 or more Operator with 1 or more Split
+Task->1 or more; Driver -> 1 or more Operator with 1 Split
 
 עוד חלקים של הcoord
 Catalogs, Connectors, SPI, logical planner, physical planner
@@ -192,22 +196,24 @@ Output - an operator is frozen because downstream operators or clients cannot co
 Client Tags
 Information about the client and the CLI user.
 Separate multiple tags with commas
- The tags can be used as input for Resource groups.
+The tags can be used as input for Resource groups.
 
-2 types of caching
+2 types of caching - hive metastore/iceberg connector [read here]
 Trino accesses files directly on object storage and remote file system storage.
 Two cache managers are available:
 Alluxio caches files on local disks.
 Memory caches files on the Java heap.
 
-Client protocol
+Client protocol - direct protocol VS spooling protocol
 The Trino client protocol is an HTTP-based protocol that allows clients to submit SQL queries and receive results.
 The protocol is a sequence of REST API calls to the coordinator of the Trino cluster.
+The spooling protocol uses an object storage location to store data for the client to retrieve.
+The direct protocol transfers all data from the workers to the coordinator and then directly to the client.
 
 External routing service vs Internal routing service
 Internal Routing Service - Routing rules are defined locally inside a configuration file (such as a YAML file) directly accessible by the Trino Gateway. 
 External Routing Service - Trino Gateway sends request headers, parameters, and metadata via an HTTP POST request to an independent, external web service, which responds with a target routing group.
-Do we define the rules manually for a trino gateway or does a separate entity do that.
+Do we define the rules manually for a Trino gateway, or does a separate entity do that?
 Noisy neighbors - איך פותרים
 A service that has multiple customers [tenants] can be multitenant.
 A benefit of multitenant systems is that resources can be pooled and shared among tenants.
@@ -215,8 +221,8 @@ The noisy neighbor problem occurs when one tenant's performance is degraded beca
 The noisy neighbor problem also occurs when each tenant consumes only a small portion of the system's capacity, but the combined resource usage of many tenants can result in a peak in overall usage. [not relevant since each cluster has independent resources here]
 
 Trino Gateway [crazy subtle foreshadowing] - a load balancer, proxy server, and configurable routing gateway for multiple Trino clusters 
-Trino gateway is a middleman that checks routes “statements” into clusters, and if a cluster becomes unavailable, it will stop routing statements into said cluster.
-It also handles the noisy neighbors problem so that none of the clusters reach a maximum capacity whilst sharing their resources
+Trino Gateway is a middleman that checks routes “statements” into clusters, and if a cluster becomes unavailable, it will stop routing statements into said cluster.
+It also handles the noisy neighbors problem so that none of the clusters reach a maximum capacity whilst sharing their resources.
 
 
 בעית הרשאות - איך פותרים
@@ -236,6 +242,47 @@ The Web UI is accessible on the coordinator via HTTP or HTTPS, using the configu
 
 Concurrency, concurrency limit, parallelism, parallelism limit
 The number of tasks that can be run in parallel - lower = more tasks concurrently but creates greater overhead.
+Impersonation*
+```SET SESSION AUTHORIZATION {username}```
+Basically, if I run that command but replace {username} w/ an actual username, all queries run will run with that username and not my own.
+
+File-Based Access Control
+To secure access to data in your cluster, you can implement file-based access control where access to data and operations is defined by rules declared in manually configured JSON files.
+System-level access control uses the access control plugin with a single JSON file that specifies authorization rules for the whole cluster.
+Catalog-level access control uses individual JSON files for each catalog for granular control over the data in that catalog, including column-level authorization.
+
+מה עובר בHeartBeat*
+QueryID, token, slug - enum of the status of the task.
+
+כמה ACLים ניתן לשים בקובץ HDFS*
+You can not have unlimited amount of ACL entries for a given file or directory.
+The maximum number is 32 for access and 32 for default entries which is 64 in total. 
+
+מה השלב בcoord שמדבר עם workerים
+
+DISCOVERY SERVICE FUCK
+
+מה מוביל לQUEUED
+Unavailable resources due to concurrency limit but accepted by coord
+
+מה הגודל של split - בHive over HDFS
+hive.max-split-size:
+The largest size of a single file section assigned to a worker. Smaller splits result in more parallelism and thus can decrease latency, but also have more overhead and increase load on the system.
+64 MB [default]
+
+Catalog management: dynamic vs static
+Static: Trino reads catalog property files and configures available catalogs only on server startup.
+Dynamic: catalog configuration can also be managed using CREATE CATALOG and DROP CATALOG.
+New worker nodes joining the cluster receive the current catalog configuration from the coordinator node. 
+
+Resource groups - מה זה ואיזה עונשים הם מביאים
+Resource groups place limits on resource usage, and can enforce queueing policies on queries that run within them, or divide their resources among sub-groups.
+A query belongs to a single resource group, and consumes resources from that group (and its ancestors).
+Except for the limit on queued queries, when a resource group runs out of a resource, it does not cause running queries to fail; instead, new queries become queued.
+
+Exchange Manager
+An Exchange Manager is a filesystem-based configurable solution that stores spooled data [Spooling - location of data stored in object storage for client retrieval] in a specified location.
+
 
 
 ---
