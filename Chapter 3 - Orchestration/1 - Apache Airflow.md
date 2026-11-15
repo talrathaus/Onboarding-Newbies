@@ -131,7 +131,7 @@ The triggerer writes tasks waiting asynchronously for outside issues to resolve 
 
 מה זה AirflowUI - שם ומה זה עושה
 
-Airflow UI.
+Airflow UI. - web server
 It allows viewing and managing DAGs, viewing and managing variables, task graphs, and viewing task code.
 
 באיזה גרסא ואיזה שינויים עברו בין הגרסאות של הסיראליזציה לDAGים
@@ -151,7 +151,10 @@ task_instance.xcom_push(key="VALUE", value=any_serializable_value)
 
 תהליך xcom והאם יש מגבלת גודל
 
-['# MAX XCOM Size is 48KB'](https://github.com/apache/airflow/pull/1618#discussion_r68249677)
+['# MAX XCOM Size is 48KB'](https://github.com/apache/airflow/pull/1618#discussion_r68249677) - no
+There’s no limit; it was changed in 2.0
+It depends on the metadata DB’s type, but it should usually be as low as possible.
+
 
 ```python
 @task(do_xcom_push=True, multiple_outputs=True)
@@ -245,6 +248,46 @@ K8s: Every task gets a default CPU/RAM allocation defined in your Airflow Helm c
 השוואה בין K8S וCelery כexecutorים
 
 Pool of workers with 1 or more workers per task that go back to the idle pool of workers when done VS a single pod that takes resources from a pool of resources for a task that dissolves when done.
+
+
+
+Can I get uhhhhhhhh [שאלות סקילה 2]
+
+What is a DAG in Airflow
+
+It’s not even acyclic anymore 😭
+Directed Airflow Graph or just Directed Graph [dg 😭]
+
+What can be done through the UI as an infraadmin and as a client
+
+Infraadmins can see the Admin tab  - system-level tools for configuring and extending Airflow.
+Clients can view: General statistics, view a DAG, view DAGs, view a DAGRun, view DAGRuns, view Triggers, view a TaskInstance, view TaskInstances, and view Assets 
+Assets are tables, files, modules, DAG groups, related tasks and DAGs.
+
+All the trigger rules
+- all_success (default): All upstream tasks have succeeded
+- all_failed: All upstream tasks have failed
+- all_done: All upstream tasks are done with their execution
+- all_done_setup_success: Like all_done, but if the task has upstream setup tasks, at least one of them must have succeeded
+- all_done_min_one_success: All non-skipped upstream tasks are done with their execution and at least one upstream task has succeeded
+- all_skipped: All upstream tasks are in a skipped state
+- one_failed: At least one upstream task has failed - does not wait for all
+- one_success: At least one upstream task has succeeded - does not wait for all
+- one_done: At least one upstream task succeeded or failed - does not wait for all
+- none_failed: All upstream tasks have not failed
+- none_failed_min_one_success: All upstream tasks have not failed, and at least one upstream task has succeeded
+- none_skipped: No upstream task is in a skipped state
+- always: Run this task at any time
+
+K8sceleryexecutor - go in depth
+
+The CeleryKubernetesExecutor allows users to run a CeleryExecutor and a KubernetesExecutor simultaneously.
+An executor is chosen to run a task based on the task’s queue.
+CeleryKubernetesExecutor inherits the scalability of the CeleryExecutor to handle the high load at peak time and the runtime isolation of the KubernetesExecutor.
+
+What is a worker in Celery
+
+Processes that continuously poll the executor to see if there are new tasks.
 
 
 ### Real-World Context
