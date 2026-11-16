@@ -45,18 +45,91 @@ Use the resources below and practice researching additional information online.
    Explain ideas such as readability, maintainability, and the principle of  
    **“Leave the codebase cleaner than you found it.”**
 
+Clean code Principles
+Minimize Dependencies (Loose Coupling)
+Avoid tightly linking classes or modules. When classes depend too much on each other, changes in one can ripple through others, making updates and debugging difficult.
+בתכלס, כמה שפחות coupling כמה שיותר טוב
+Group Related Responsibilities (High Cohesion)
+Ensure that elements within a class or module work towards a single, clear purpose. High cohesion makes components easier to understand and modify.
+כמה שיותר cohesion כמה שיותר טוב
+Keep Changes Local (Locality)
+Design systems so that changes, fixes, or feature additions can be isolated to a specific area, without affecting unrelated parts of the codebase.
+לעשות ששינויים בקוד ישנו רק במקום אחד
+Make Components Replaceable (Removability)
+Build components that can be removed or swapped out without significant rewrites to the surrounding system.
+לעשות שלהחליף רכיב זה קל
+Keep it Small (Small Components)
+Divide the system into smaller, focused pieces. Each component should ideally handle one task to maintain clarity and reusability.
+לעשות שרכיבים יהיו כמה שיותר קטנים
+
+Readability - קריאות - עד כמה הקוד שכתבת אשקרה קריא לבנאדם אחר שלא עבד על הcodebase אףפעם
+Maintainability - תחזוקתיות -  עד כמה קל לתחזק את הקוד, עד כמה קל למצוא בו שגיאות וכמה קל לתקן בו ולהוסיף בו דברים.
+“Leave the codebase cleaner than you found it.” - אם זה לא שבור לא לתקן את זה, לא צריך להוסיף שיט שלא עושה כלום ועושה את הקוד פחות קריא ממה שהיה לפניך, "לא להיות ההוא שצריך לקרוא לו למילואים רק כדי להבין מה הוא עשה" - א. מטוק, מסא"א.
+
 2. What are the **SOLID principles**?  
    Describe each principle and explain how they help create maintainable
    object-oriented systems.
+
+SOLID:
+Single Responsibility Principle (SRP)
+Each class should do only one thing. A class with multiple responsibilities becomes hard to understand and maintain.
+מטרה אחת לכל פונקציה\קומפוננטה
+Open/Closed Principle (OCP)
+Code should allow for extension without requiring modification. For example, you should be able to add new features by creating new classes rather than editing existing ones.
+"לא צריך לעשות ניתוח לב פתוח בשביל לשים מעיל" - נ. קפלן, מסא"א.
+Liskov Substitution Principle (LSP)
+Subclasses should work seamlessly in place of their parent classes. Violating this makes inheritance unreliable.
+לברבז אמבטיה ולברבז הבית לא יהיה את אותו parent class
+Dependency Inversion Principle (DIP)
+High-level modules shouldn’t rely on low-level modules. Both should depend on abstractions (interfaces), not specific implementations.
+כלב יורש מיונקים ולא יונקים יורשים מכלב
+Interface Segregation Principle (ISP)
+Keep interfaces small and focused. Don’t force classes to implement methods they don’t need.
+KISS אבל רק לinterfaceים ולא לליטרלי כל שאר הקוד שלך
 
 3. Explain the **KISS principle** and its importance in software design.
 Why does simple and intuitive software scale well?  
    Why do overly complex systems tend to fail over time?
 
+KISS זה Keep It Simple Stupid, בתכלס אומר לעשות שיט כמה שיותר פשוט וכמה שיתר אינטואטיבי וזה בדרכלל יהיה עדיף על פתרון מסובך שקשה להבין כי ככה אפשר להיכנס לcodebase יותר מהר ולעשות תיקונים ביותר קלות.
+גם כי קשה לעשות תיקונים וגם בגלל הOverhead בין רכיבים.
+
 4. What are the most common **paradigms / programming** (ex. Object Orianted) styles, what are the differences and when should each be used
+
+ - תכנות מונחה-עצמים עושה שימוש בobjectים כדי לייצג data וmethodות.
+בתכנות מונחה-עצמים, התוכנות משתמשות בעצמים המתקשרים זה עם זה; תקשורת זו מאפשרת לשנות את הנתונים בתוך העצמים ולפעול באופן התואם את רצון המשתמש.
+הודות לאופן שבו תוכנן התכנות מונחה-העצמים, הוא מסייע למפתח בכך שהוא מאפשר שימוש חוזר בקוד - הן על ידי חלקים אחרים בתוכנה והן על ידי אנשים אחרים.
+Some may claim the goat.
+
+Procedural - תכנות פרוצדורלי הוא פשוט מורכב מרשימת הוראות למחשב, המנחות אותו לבצע פעולות מסוימות בדרך מוגדרת.
+The most basic one
+
+Those are the main 2
+
+Declarative - תכנות דקלרטיבי הוא שבה כותבים את הלוגיקה של חישוב, מבלי לכתוב במלואו את זרימת הבקרה שלו, בתכלס הוא paradigm מאוד גדול שבתוכו יש את:
+Function Oriented - תכנות פונקציונלי זה כאשר תוכניות נבנות על ידי יישום וחיבור פונקציות.
+הגדרות פונקציה הן עצי ביטויים הממפים ערכים לערכים אחרים, ולא רצף של משפטי ציווי המעדכנים את מצב הריצה של התוכנית.
+פונקציות מטופלות כישויות מהשורה הראשונה, כלומר ניתן לקשור אותן לשמות (כולל מזהים מקומיים), להעביר אותן כארגומנטים ולהחזיר אותן מפונקציות אחרות, בדיוק כמו כל סוג נתונים אחר.
+קל לתחזק וקריא מאוד.
+
+Imperative -  תכנות אימפרטיבי מספק הוראות ספציפיות לגבי האופן שבו יש לבצע חישובים.
+בדומה לאופן שבו הimperative mood בשפות טבעיות מביעה פקודות, תוכנית אימפרטיבית מורכבת מפקודות שהמחשב נדרש לבצע.
+תכנות אימפרטיבי מתמקד בתיאור אופן הפעולה של התוכנית - צעד אחר צעד - ולא בתיאורים ברמה גבוהה של התוצאות הצפויות ממנה.
 
 5. What is **Test Driven Development (TDD)**?  
    Explain the development cycle and how it improves code reliability.
+
+פיתוח מונחה-בדיקות הוא טכניקה לבניית תוכנה, המכווינה את תהליך הפיתוח באמצעות כתיבת בדיקות.
+התהליך מורכב מחזרה על שלושה צעדים פשוטים:
+כתיבת בדיקה עבור הפונקציונלית הבאה שצריך להוסיף.
+כתיבת הקוד הפונקציונלי, עד אשר הבדיקה עוברת בהצלחה.
+ביצוע Refactoring - שיפור מבנה הקוד, הן החדש והן הקיים.
+
+זה משפר את הreliability של הקוד כי בסוף אתה כותב קוד שהמטרה שלו היא לפתור את הtestים שעשית וככה:
+אי אפשר "לרמות" - או שהקוד שלך עובר את הtestים או שלא.
+יש לך אינטרס לעשות את הקוד כמה שיותר קצר.
+ובנוסף לאחרכך אתה תעשה refactor לקוד הזה כדי שהוא יהיה כמה שיותר סולידי וכמה שיותר נקי.
+
 
 ---
 
