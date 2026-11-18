@@ -141,21 +141,59 @@ Imperative -  תכנות אימפרטיבי מספק הוראות ספציפיו
    and **Design Review (DR)**.  
    Why are these processes important in team development?
 
+PR - “A pull request proposes merging code changes from one branch into another. As a collaborative feature, pull requests give you a place to discuss and review work before it becomes part of a project.” - [github/about-pull-requests](https://docs.github.com/en/pull-requests/get-started/about-pull-requests)
+CR - “A code review is a peer review of code that helps developers ensure or improve the code quality before they merge and ship it.” - [gitlab/what-is-code-review](https://about.gitlab.com/topics/version-control/what-is-code-review/)
+DR - “A design review is a milestone within a product development process whereby a design is evaluated against its requirements in order to verify the outcomes of previous activities and identify issues before committing to—and, if need be, to re-prioritise—further work.” - [wikipedia/Design_review](https://en.wikipedia.org/wiki/Design_review)
+
+בתכלס: בDR עוברים על העיצוב עצמו של המערכת ועל הרכיבים שלה ולא על הקוד עצמו, בCR עוברים על הקוד עצמו והאם הוא כתוב בצורה SOLIDית ונקייה [בנוסף מוודאים שהוא עובד ועוד כל מיני שיטים וגם זה עוזר שעוד מישהו מסתכל על הקוד שנתב לפני שהוא עובר שימוש] ובPR עוברים על שינויים שנעשו לקוד לפני שהוא נהיה חלק מהbranch החדש המרכזי יותר.
+
 2. Define the role of a **Pull Request (PR) / Merge Request**.
 What is **squshing**? Why is it common practice to squash commits before the final merge?
 Find how can you **apply specific fixes** from one branch to another without merging the entire history?
 What is the process for **safely undoing** a merged PR using git revert?
 
+לוודא שלא מכניסים קוד חרא לprod ושעוד מישהו יסתכל עליו לפני שהוא עובר לprod.
+
+“Squashing allows you to combine multiple commits in your branch's history into a single commit. This can help keep your repository's history more readable and understandable.” - [github/squashing-commits](https://docs.github.com/en/desktop/managing-commits/squashing-commits-in-github-desktop)
+בתכלס, כל הcommits של הPR יראו כcommit 1.
+זה עוזר לנראות.
+
+Cherrypicking:
+Given one or more existing commits, apply the change each one introduces, recording a new commit for each. This requires your working tree to be clean (no modifications from the HEAD commit).
+
+התהליך של ביטול PR שכבר מורג'ג' הוא: יצירת revert PR - כלומר, יצירת PR המכיל את השינויים ההפוכים לאלו שהופיעו ב-PR המקורי שמוזג.
+
 3. Explain the difference between **CLI (Command Line Interface)** and
    **UI (User Interface)** applications.  
    What are the benefits of each?
 
+CLI is like pew pew am haker, UI is 60.
+[[I'm not the only autistic one thinking this](https://www.reddit.com/r/opencode/comments/1w0up6l/comment/p6g1g8g/)]
+
+CLI הוא בעצם ממשק שורת פקודה - כשמפחיד ליצור ממשק משתמש גרפי, משתמשים בפקודות דמויות מעטפת שעושות את מה שאתה רוצה לעשות.
+[I'm assuming you all meant to compare CLI and GUI because CLI is just a form of UI so there's no actual comparisson to be done]
+GUI הוא בעצם ממשק משתמש גרפי - כמו גרפיקה ואנימציות וכדומה כפתור אדום, כפתור כחול, כפתור גדול, כפתור קטן.
+
 4. What is the difference between a **compiler** and an **interpreter**?  
    Provide examples of languages that use each approach.
+
+Compiled languages לוקחות את הקוד כולו ועושות compilation אותו לexecutable file.
+הן מהירות יותר בזמן הריצה ובטוחות יותר, אך קשה יותר לבצע בהן debugging, והcompilation עצמו בדרך כלל מוסיף זמן לתהליך.
+דוגמאות: C#, Java ו-Rust [אומייגאד, Rust???!!!11!1!!].
+
+Interpreted languages מתרגמות את הקוד שורה אחר שורה לשפת מחשב; קל יותר לבצע בהן debugging, אך הן איטיות יותר.
+דוגמאות: Python, Ruby ו-JavaScript.
 
 5. What is **event-driven programming**?  
    Explain how it differs from procedural execution and where it is commonly used.
 
+תכנות מונחה אירועים הוא פרדיגמה שבה זרימת התוכנית נקבעת על ידי אירועים חיצוניים.
+UI Events ממקלדות ועכברים, משטחי מגע ומסכי מגע, וקלטים מחיישנים חיצוניים הם מקרים נפוצים.
+אירועים עשויים להיווצר גם באופן תכנותי, כגון מהודעות מתוכניות אחרות, התראות משרשורים אחרים או אירועי רשת אחרים.
+תכנות מונחה אירועים הוא הפרדיגמה הדומיננטית המשמשת ביישומי GUI ובשרתי רשת.
+ביישום מונחה אירועים, בדרך כלל יש לולאת אירועים שמאזינה לאירועים ולאחר מכן מפעילה פונקציית קריאה חוזרת כאשר אחד מאירועים אלה מזוהה.
+
+בתכלס, פרדיגמת התכנות המשמשת ליצירת UI.
 
 > ⚠️ **Recommended exercise**  Please organzie your time and consider trying this git exercise [https://learngitbranching.js.org/]()
 ---
