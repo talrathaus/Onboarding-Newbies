@@ -290,6 +290,116 @@ Ruff כולל מספר רב של כללים מובנים המכסים מגוון
 pytest הוא הסטנדרט בתעשייה לבדיקות פייתון מכיוון שהוא מבטל קוד בסיסי, מציע מתקנים מודולריים רבי עוצמה ומתגאה במערכת אקולוגית של מעל 800 תוספים.
 בעוד ש-unittest המובנה של Python אינו דורש התקנה כלל וכלים מיוחדים כמו Robot Framework או Behave משמשים גם עבור אנשים שאינם מפתחים, pytest מספק את האיזון הטוב ביותר בין פשטות וגמישות עבור רוב פרויקטי Python.
 
+מה זה VENV
+venv, או Python Virtual Environment, היא עותק נוסף של קובץ ההפעלה של Python, בדרך כלל בתיקיית משנה של תיקיית פרויקט.
+לאחר ההפעלה, כל חבילות Python המותקנות משויכות רק ל-venv של הפרויקט ולא להתקנת הבסיס של Python או לכל פרויקט אחר שלכל אחד venv משלו.
+בזכות זה, אפשר לקבל הרבה מאוד חבילות מותקנות, שלא כולן מתאימות, ורק מעטות מהן יהיו רלוונטיות לכל פרויקט מסוים.
+קשה לנהל את כל התלויות באופן מרכזי וגם להיות מסוגל לשחזר את מה שנדרש במחשב אחר בעתיד עבור מישהו אחר.
+
+מה זה Context Manager
+context manager בPython מטפל בהכנה ובניקוי של משאבים בתוכניות שלכם.
+הוא מסייע בניהול קבצים, חיבורים למסדי נתונים, threads, מנעולים ומשאבים אחרים הדורשים פתיחה וסגירה מסודרות.
+בעזרת מנהל הקשר, אין צורך לכתוב שוב ושוב קוד לטיפול בשגיאות או לסגירת משאבים; Python דואגת לכך עבורכם באמצעות השימוש בפקודה `with`.
+
+מה זה PYC
+קובץ .pyc הוא קובץ פייתון שעבר קומפילציה ומכיל bytecode - ייצוג ברמה נמוכה של קוד המקור שלכם בפייתון.
+אף על פי שלעיתים קרובות מתייחסים לפייתון כאל interpreted language, בפועל היא עוברת תהליך דו-שלבי: קומפילציה ופירוש.
+
+מה זה CICD
+youtube/מה זה דבאופס
+
+מה הקשר בין פיטון לC מעבר לCompile וזה שפייטון כתוב בC
+Gng Cpython is what i was tryna find
+
+תקיות של venv
+bin - scripts, pip and a copy of python, lib - downloaded libraries
+
+הבדלים בין docker וvenv
+Venv is only for python packages and dependencies whilst docker is for the entire project.
+
+הבדלים בין venv לינוקס וvenv windows*
+
+
+הקצאות משאבים בפייטון
+Gang thats just the context manager
+
+מה ההבדל בין exception וerror
+An error is when you make a mistake. An Exception is a class in python that generates messages and categorizes code that could be mistakes.
+Technically there are no errors in python.
+
+מה זה iterator
+An iterator is an object that progressively provides access to each item of a collection, in order.
+
+מה זה next func של generatorים
+```
+function* numberGenerator() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+const generator = numberGenerator();
+console.log(generator.next().value); // 1
+console.log(generator.next().value); // 2
+console.log(generator.next().value); // 3
+console.log(generator.next().done);  // true (no more values)
+```
+
+מה זה overhead בכללי ובפייטון
+It's the resources required to set up an operation.
+Python is ass at managing overhead.
+
+מה זה meta class
+a metaclass is a class whose syntactic definitions are used for the syntactic definition of the classes themselves.
+
+מה זה data class
+w/o dataclass:
+```
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+```
+w/ dataclass:
+```
+from dataclasses import dataclass
+@dataclass
+class Point:
+    x: float
+    y: float
+```
+
+האם del בpy מוחק ברמת המערכת הפעלה
+No, it just deletes the variable.
+
+מה זה Saga design pattern
+The Saga pattern is a way to manage data consistency across multiple services in a distributed system without using a single big database transaction.
+
+מה זה factory design pattern
+Factory Method is a creational design pattern that provides an interface for creating objects in a superclass, but allows subclasses to alter the type of objects that will be created.
+
+מה זה strategy design pattern
+Strategy is a behavioral design pattern that lets you define a family of algorithms, put each of them into a separate class, and make their objects interchangeable.
+
+מה זה adapter design pattern
+Adapter is a structural design pattern that allows objects with incompatible interfaces to collaborate.
+
+אופטימיזציות של JIT
+Inlining: Replacing a call to a small or frequently used method with the body of the method itself.
+Escape Analysis: Determining whether an object is used exclusively within a specific method or thread; if it does not "escape" its scope, it can be allocated on the stack rather than the heap, and unnecessary locks can be removed.
+Dead Code Elimination: Removing instructions, variables, or code branches that are never executed or whose results have no impact.
+Loop and Control-Flow Optimizations: Reordering code blocks, hoisting constant calculations out of loops, and utilizing OSR (On-Stack Replacement) to compile long-running loops while they are already executing.
+Deoptimization: Reverting to less-optimized code or interpretation when an optimistic assumption - such as the specific type of an object along a "hot path" - proves to be incorrect at runtime.
+
+קןד פייטון->Java ללא Jython
+הוא התכוון לjython
+
+Callable VS Function
+A function is a specific construct designed to execute a block of code, whereas a callable is a broader category encompassing anything that can be invoked using function-call syntax, such as parentheses
+
+UV - השוואה לpip ואיך הוא יותר מהיר
+uv is faster than pip, because it is written in Rust [omg], downloads and resolves dependencies concurrently, and reuses cached files via hardlinks instead of copying.
+
 ---
 
 ### 🔄 Alternatives
