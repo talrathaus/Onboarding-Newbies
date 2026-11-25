@@ -122,6 +122,125 @@ DinD - בתוך מכל Docker יחיד, ייווצרו תת-מכולות עבו�
 Kaniko - מבצע כל הוראה ברצף, ויוצר שכבות ביניים שניתן לאחסן במטמון באופן אופציונלי, והתמונה הסופית נדחפת לאחר מכן לרישום שצוין.
 הוא בנוי גם עבור צינורות CI/CD וגם עבור פודי Kubernetes, מכיוון שיש לו אינטגרציה מקורית עם שניהם.
 
+שאלות אבל סקילה
+איך docker עובד על windows
+Before Windows 10 2004 (and the equivalent Server version), it would essentially use Hyper-V with a “hidden” Linux VM.
+
+Since the release of WSL2, it simply uses whatever flavour of Linux you’ve installed in WSL, and uses that kernel.
+
+מה זה הimage בתכלס על המחשב
+A bunch of read-only layers managed by the DockerD
+
+איך עושים "CD" בdocker
+WORKDIR
+
+איזה עוד פקודה יש בdockerfile להריץ פקודות שהם לא CMD
+RUN, the main difference is:
+RUN Command: RUN command will execute the default command when we are building the image and commit the image changes for the next step.
+There can be more than 1 RUN command to aid in the process of building a new image.
+CMD Command: CMD commands will just set the default command for the new container, which will not be executed at build time.
+If a Dockerfile has more than 1 CMD command, then all of them are ignored except the last one.
+
+
+פקודות בDockerfile
+FROM - import base image
+EXPOSE - expose port of container at runtime
+RUN - run command during image building process.
+CMD - specifies the command that will run upon container start
+ENV - set environment variable
+COPY - copy files from host to container
+VOLUME - create a mount point as  a volume inside a container
+WORKDIR - “cd” but for Docker
+ARG - set variables passed to the Dockerfile during build time
+LABEL - add metadata to image
+STOPSIGNAL
+ONBUILD
+ENTRYPOINT
+MAINTAINER
+ADD
+HEALTHCHECK
+SHELL
+USER
+
+מה זה docker run -it
+Create and run a new container from an image
+  -i, --interactive                      Keep STDIN open even if not attached
+  -t, --tty                              Allocate a pseudo-TTY
+
+איך רואים את כל הfs של הcontainer בפקודה
+docker exec -it myserver /bin/bash
+ls -lsa
+
+איך dockerfile ללא baseimage ולמה
+FROM scratch - empty base image
+Why:
+Smaller image size
+That’s kinda it the rest are other advantages that come from that
+
+האם אפשר יותר מbaseimage 1
+Yes - it’s called Multi-Stage Builds.
+
+מה זה docker compose
+Docker Compose is a tool for defining and running multi-container applications.
+
+פקודות בdocker
+run            Create and run a new container from an image
+exec           Execute a command in a running container
+ps             List containers
+build          Build an image from a Dockerfile
+pull           Download an image from a registry
+push           Upload an image to a registry
+images         List images
+login          Authenticate to a registry
+logout         Log out from a registry
+search         Search Docker Hub for images
+version        Show the Docker version information
+info           Display system-wide information
+compose        READ ABOVE
+container      Manage containers
+image          Manage images
+plugin         Manage plugins
+volume         Manage volumes
+commit         READ BELLOW
+cp             Copy files/folders between a container and the local filesystem
+create         Create a new container
+diff           Inspect changes to files or directories on a container's filesystem
+events         Get real time events from the server
+history        Show the history of an image
+import         Import the contents from a tarball to create a filesystem image
+inspect        Return low-level information on Docker objects
+kill           Kill one or more running containers
+logs           Fetch the logs of a container
+pause          Pause all processes within one or more containers
+port           List port mappings or a specific mapping for the container
+rename         Rename a container
+restart        Restart one or more containers
+rm             Remove one or more containers
+rmi            Remove one or more images
+start          Start one or more stopped containers
+stats          Display a live stream of container(s) resource usage statistics
+stop           Stop one or more running containers
+tag            Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+top            Display the running processes of a container
+update         Update configuration of one or more containers
+  
+למה kaniko טוב ומתי להשתמש [לא לסיים ב"CICD, K8S", לתת דוגמה]
+container image building designed for Dockerfile-based image creation.
+
+איך מגדירים bind mount וvolume
+Bind mount: … -v HOSTDIR:CONTDIR
+Volume: docker volume create [OPTIONS] [VOLUME] 
+
+Use case של bridge
+Docker Bridge Networks are used for developing web applications with backend services, deploying microservices to a single host, setting up a local development environment, running continuous integration (CI) pipelines, and testing service-to-service communication.
+
+Port forwarding in Docker
+docker run -p CONTAINERPORT:HOSTPORT IMAGE
+
+מה זה commit בdocker
+Create a new image from a container's changes
+
+
 ---
 
 ### 🔄 Alternatives
